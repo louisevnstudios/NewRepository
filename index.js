@@ -8,7 +8,7 @@ app.use(express.json());
 
 // ---------------- SECRETS ----------------
 const PORT = process.env.PORT || 10000;
-const OPENAI_KEY = process.env.OPENAI_API_KEY2;
+const OPENAI_KEY = process.env.OPENAI_API_KEY3;
 const API_TOKEN = process.env.API_TOKEN;
 
 // ---------------- OPENAI CLIENT ----------------
