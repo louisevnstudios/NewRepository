@@ -14,6 +14,11 @@ app.get("/", (req, res) => {
   res.send("Mina backend online");
 });
 
+app.get("/test", (req, res) => {
+  console.log("/test endpoint hit!");
+  res.send("TEST ROUTE WORKS!");
+});
+
 // AI endpoint
 app.post("/ai", async (req, res) => {
   const { message, plotStage, affection, dependency, item } = req.body;
