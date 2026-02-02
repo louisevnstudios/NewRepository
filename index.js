@@ -1,3 +1,4 @@
+// index.js
 const express = require("express");
 const OpenAI = require("openai");
 
@@ -36,15 +37,10 @@ app.post("/mina", async (req, res) => {
     const memory = getMemory(userId);
 
     // Add player message to memory
-    memory.push({
-      role: "user",
-      content: message
-    });
+    memory.push({ role: "user", content: message });
 
     // Trim memory
-    if (memory.length > MEMORY_LIMIT) {
-      memory.shift();
-    }
+    if (memory.length > MEMORY_LIMIT) memory.shift();
 
     // Build prompt
     const messages = [
@@ -69,17 +65,10 @@ app.post("/mina", async (req, res) => {
     const reply = completion.choices[0].message.content;
 
     // Store Mina reply in memory
-    memory.push({
-      role: "assistant",
-      content: reply
-    });
+    memory.push({ role: "assistant", content: reply });
+    if (memory.length > MEMORY_LIMIT) memory.shift();
 
-    // Trim again (important)
-    if (memory.length > MEMORY_LIMIT) {
-      memory.shift();
-    }
-
-    res.json({ reply });
+    res.json({ reply, emotion: "Neutral" }); // You can extend to real emotions later
   } catch (err) {
     console.error("Mina error:", err);
     res.status(500).json({ error: "Mina failed to respond" });
@@ -87,10 +76,17 @@ app.post("/mina", async (req, res) => {
 });
 
 // ─────────────────────────────
-// Health check (VERY important)
+// Health check
 // ─────────────────────────────
 app.get("/", (req, res) => {
   res.send("Mina server is alive 💙");
+});
+
+// ─────────────────────────────
+// Test endpoint
+// ─────────────────────────────
+app.get("/test", (req, res) => {
+  res.json({ status: "ok", message: "Test endpoint working ✅" });
 });
 
 // ─────────────────────────────
